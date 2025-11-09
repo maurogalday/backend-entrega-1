@@ -1,7 +1,5 @@
 import { Router } from 'express';
-import { generateUsers, generatePets } from '../utils/mocking.js';
-import User from '../models/User.model.js';
-import Pet from '../models/Pet.model.js';
+import mockService from '../services/mock.service.js';
 
 const router = Router();
 
@@ -42,7 +40,7 @@ const router = Router();
  */
 router.get('/mockingusers', async (req, res) => {
   try {
-    const users = await generateUsers(50);
+    const users = await mockService.generateMockUsers(50);
     res.status(200).json({
       status: 'success',
       count: users.length,
@@ -94,7 +92,7 @@ router.get('/mockingusers', async (req, res) => {
  */
 router.get('/mockingpets', async (req, res) => {
   try {
-    const pets = generatePets(50);
+    const pets = mockService.generateMockPets(50);
     res.status(200).json({
       status: 'success',
       count: pets.length,
@@ -190,52 +188,17 @@ router.post('/generateData', async (req, res) => {
   try {
     const { users, pets } = req.body;
 
-    // Validación de parámetros
-    if (!users && !pets) {
+    // Validación de parámetros usando el servicio
+    const validation = mockService.validateGenerateDataParams({ users, pets });
+    if (!validation.isValid) {
       return res.status(400).json({
         status: 'error',
-        message: 'Debe proporcionar al menos uno de los parámetros: users o pets'
+        message: validation.message
       });
     }
 
-    if ((users && typeof users !== 'number') || (pets && typeof pets !== 'number')) {
-      return res.status(400).json({
-        status: 'error',
-        message: 'Los parámetros users y pets deben ser números'
-      });
-    }
-
-    if ((users && users < 0) || (pets && pets < 0)) {
-      return res.status(400).json({
-        status: 'error',
-        message: 'Los parámetros users y pets deben ser números positivos'
-      });
-    }
-
-    const result = {
-      users: {
-        requested: users || 0,
-        inserted: 0
-      },
-      pets: {
-        requested: pets || 0,
-        inserted: 0
-      }
-    };
-
-    // Generar e insertar usuarios
-    if (users && users > 0) {
-      const generatedUsers = await generateUsers(users);
-      const insertedUsers = await User.insertMany(generatedUsers);
-      result.users.inserted = insertedUsers.length;
-    }
-
-    // Generar e insertar mascotas
-    if (pets && pets > 0) {
-      const generatedPets = generatePets(pets);
-      const insertedPets = await Pet.insertMany(generatedPets);
-      result.pets.inserted = insertedPets.length;
-    }
+    // Generar e insertar datos usando el servicio
+    const result = await mockService.generateAndInsertData({ users, pets });
 
     res.status(201).json({
       status: 'success',

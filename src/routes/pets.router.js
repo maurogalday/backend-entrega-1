@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import Pet from '../models/Pet.model.js';
+import petService from '../services/pet.service.js';
 
 const router = Router();
 
@@ -37,7 +37,7 @@ const router = Router();
  */
 router.get('/', async (req, res) => {
   try {
-    const pets = await Pet.find().populate('owner');
+    const pets = await petService.getAllPets();
     res.status(200).json({
       status: 'success',
       count: pets.length,
@@ -101,7 +101,7 @@ router.get('/', async (req, res) => {
  */
 router.get('/:id', async (req, res) => {
   try {
-    const pet = await Pet.findById(req.params.id).populate('owner');
+    const pet = await petService.getPetById(req.params.id);
     if (!pet) {
       return res.status(404).json({
         status: 'error',

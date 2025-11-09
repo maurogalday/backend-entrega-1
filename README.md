@@ -76,6 +76,21 @@ http://localhost:8080/api-docs
 - **GET** `/api/pets` - Obtiene todas las mascotas
 - **GET** `/api/pets/:id` - Obtiene una mascota por ID
 
+## Arquitectura del Proyecto
+
+Este proyecto sigue una arquitectura por capas con separación de responsabilidades:
+
+```
+Router → Service → Model → Database
+```
+
+### Capas
+
+- **Routers**: Manejan las peticiones HTTP, validaciones básicas y respuestas
+- **Services**: Contienen la lógica de negocio y operaciones con la base de datos
+- **Models**: Definen los esquemas de Mongoose
+- **Utils**: Funciones auxiliares reutilizables (generación de datos mock)
+
 ## Estructura del Proyecto
 
 ```
@@ -83,17 +98,21 @@ entrega1/
 ├── src/
 │   ├── app.js              # Servidor Express principal
 │   ├── config/
-│   │   └── database.js     # Configuración de MongoDB
-|   |   └── swagger.js      # Configuración de Swagger   
+│   │   ├── database.js     # Configuración de MongoDB
+│   │   └── swagger.js      # Configuración de Swagger
 │   ├── models/
-│   │   ├── User.model.js   # Modelo de Usuario
-│   │   └── Pet.model.js    # Modelo de Mascota
+│   │   ├── User.model.js   # Modelo de Usuario (Mongoose)
+│   │   └── Pet.model.js    # Modelo de Mascota (Mongoose)
+│   ├── services/           
+│   │   ├── user.service.js # Servicio de usuarios (CRUD + lógica)
+│   │   ├── pet.service.js  # Servicio de mascotas (CRUD + lógica)
+│   │   └── mock.service.js # Servicio de generación de datos mock
 │   ├── routes/
-│   │   ├── mocks.router.js # Router de mocking 
-│   │   ├── users.router.js # Router de usuarios
-│   │   └── pets.router.js  # Router de mascotas
+│   │   ├── mocks.router.js # Router de mocking (HTTP)
+│   │   ├── users.router.js # Router de usuarios (HTTP)
+│   │   └── pets.router.js  # Router de mascotas (HTTP)
 │   └── utils/
-│       └── mocking.js      # Funciones de generación de datos
+│       └── mocking.js      # Funciones de generación de datos con Faker
 ├── docker-compose.yml      # Configuración de Docker
 ├── package.json
 └── README.md

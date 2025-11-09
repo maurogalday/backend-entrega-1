@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import User from '../models/User.model.js';
+import userService from '../services/user.service.js';
 
 const router = Router();
 
@@ -37,7 +37,7 @@ const router = Router();
  */
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find().populate('pets');
+    const users = await userService.getAllUsers();
     res.status(200).json({
       status: 'success',
       count: users.length,
@@ -101,7 +101,7 @@ router.get('/', async (req, res) => {
  */
 router.get('/:id', async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).populate('pets');
+    const user = await userService.getUserById(req.params.id);
     if (!user) {
       return res.status(404).json({
         status: 'error',

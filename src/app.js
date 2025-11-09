@@ -49,8 +49,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs, {
  */
 app.get('/', (req, res) => {
   res.json({
-    message: '🚀 Backend Entrega N°1 - Mocking API',
-    documentation: '📚 http://localhost:8080/api-docs',
+    message: 'Backend Entrega N°1 - Mocking API',
+    documentation: 'http://localhost:8080/api-docs',
     endpoints: {
       mocks: {
         mockingusers: 'GET /api/mocks/mockingusers',
