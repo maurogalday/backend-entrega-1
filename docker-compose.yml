@@ -1,0 +1,25 @@
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: mockingdb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: mockingdb
+    volumes:
+      - mongodb_data:/data/db
+      - mongodb_config:/data/configdb
+    networks:
+      - backend-network
+
+volumes:
+  mongodb_data:
+    driver: local
+  mongodb_config:
+    driver: local
+
+networks:
+  backend-network:
+    driver: bridge
+
