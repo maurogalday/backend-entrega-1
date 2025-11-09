@@ -4,8 +4,36 @@ import User from '../models/User.model.js';
 const router = Router();
 
 /**
- * GET /api/users
- * Obtiene todos los usuarios de la base de datos
+ * @swagger
+ * /api/users:
+ *   get:
+ *     summary: Obtiene todos los usuarios
+ *     description: Retorna una lista de todos los usuarios registrados en la base de datos con sus mascotas pobladas.
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios obtenida exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 count:
+ *                   type: number
+ *                   example: 10
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Error del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 router.get('/', async (req, res) => {
   try {
@@ -24,8 +52,52 @@ router.get('/', async (req, res) => {
 });
 
 /**
- * GET /api/users/:id
- * Obtiene un usuario por ID
+ * @swagger
+ * /api/users/{id}:
+ *   get:
+ *     summary: Obtiene un usuario por ID
+ *     description: Retorna un usuario específico buscado por su ID de MongoDB con sus mascotas pobladas.
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del usuario en MongoDB
+ *         example: 673e5f9a8b2c1d3e4f5a6b7c
+ *     responses:
+ *       200:
+ *         description: Usuario encontrado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 data:
+ *                   $ref: '#/components/schemas/User'
+ *       404:
+ *         description: Usuario no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: error
+ *                 message:
+ *                   type: string
+ *                   example: Usuario no encontrado
+ *       500:
+ *         description: Error del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 router.get('/:id', async (req, res) => {
   try {
