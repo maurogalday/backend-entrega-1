@@ -13,6 +13,7 @@ dotenv.config();
 // Inicialización de la aplicación
 const app = express();
 const PORT = process.env.PORT || 8080;
+const environment = process.env.NODE_ENV || 'development';
 
 // Middlewares
 app.use(express.json());
@@ -83,7 +84,7 @@ app.use((req, res) => {
 
 // Inicio del servidor
 app.listen(PORT, () => {
-  console.log(`🚀 Entrega N°1 - Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`🚀 Entrega N°1 | Enviroment ${environment.toUpperCase()} | Server running on http://localhost:${PORT}`);
 });
 
 export default app;
