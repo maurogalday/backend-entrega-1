@@ -19,13 +19,15 @@ const environment = process.env.NODE_ENV || 'development';
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Conexión a la base de datos
-connectDB();
+// Conexión a la base de datos (solo si no estamos en modo test)
+if (process.env.NODE_ENV !== 'test') {
+  connectDB();
+}
 
 // Swagger Documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs, {
   customCss: '.swagger-ui .topbar { display: none }',
-  customSiteTitle: 'Backend Entrega N°1 - API Docs'
+  customSiteTitle: 'Backend Entrega N°2 - API Docs'
 }));
 
 // Rutas
@@ -50,7 +52,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs, {
  */
 app.get('/', (req, res) => {
   res.json({
-    message: 'Backend Entrega N°1 - Mocking API',
+    message: 'Backend Entrega N°2 - Mocking API',
     documentation: 'http://localhost:8080/api-docs',
     endpoints: {
       mocks: {
@@ -82,10 +84,12 @@ app.use((req, res) => {
   });
 });
 
-// Inicio del servidor
-app.listen(PORT, () => {
-  console.log(`🚀 Entrega N°1 | Enviroment ${environment.toUpperCase()} | Server running on http://localhost:${PORT}`);
-});
+// Inicio del servidor (solo si no estamos en modo test)
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`🚀 Entrega N°2 | Enviroment ${environment.toUpperCase()} | Server running on http://localhost:${PORT}`);
+  });
+}
 
 export default app;
 

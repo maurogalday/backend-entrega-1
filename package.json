@@ -1,12 +1,14 @@
 {
-  "name": "entrega1-backend",
+  "name": "entrega2-backend-coderhouse",
   "version": "1.0.0",
   "description": "Backend project with mocking functionality for users and pets",
   "main": "src/app.js",
   "type": "module",
   "scripts": {
-  "start": "cross-env NODE_ENV=production node src/app.js",
-  "dev": "cross-env NODE_ENV=development nodemon src/app.js"
+    "start": "cross-env NODE_ENV=production node src/app.js",
+    "dev": "cross-env NODE_ENV=development nodemon src/app.js",
+    "test": "cross-env NODE_ENV=test mocha",
+    "test:watch": "cross-env NODE_ENV=test mocha --watch"
   },
   "keywords": [
     "express",
@@ -25,7 +27,11 @@
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
+    "chai": "^4.3.10",
     "cross-env": "^10.1.0",
-    "nodemon": "^3.0.1"
+    "mocha": "^10.2.0",
+    "nodemon": "^3.0.1",
+    "sinon": "^17.0.1",
+    "supertest": "^6.3.3"
   }
 }

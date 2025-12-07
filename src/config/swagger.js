@@ -9,7 +9,7 @@ const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Backend Entrega N°1 - Mocking API',
+      title: 'Backend Entrega N°2 - Mocking API',
       version: '1.0.0',
       description: 'API para generar y gestionar usuarios y mascotas ficticias con funcionalidad de mocking',
       contact: {
