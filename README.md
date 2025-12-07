@@ -9,6 +9,19 @@ Proyecto backend con funcionalidad de mocking para generar usuarios y mascotas f
 - Dockerización completa
 - Base de datos MongoDB
 
+## 📚 Documentación API
+
+La documentación completa de la API está disponible mediante Swagger UI:
+
+**🔗 http://localhost:8080/api-docs**
+
+La documentación incluye:
+- ✅ Descripción de todos los endpoints
+- ✅ Esquemas de datos (Users, Pets)
+- ✅ Ejemplos de solicitudes y respuestas
+- ✅ Códigos de estado HTTP
+- ✅ Interfaz interactiva para probar endpoints
+
 ## 🚀 Inicio Rápido
 
 ### Opción 1: Ejecutar con Docker
@@ -52,6 +65,25 @@ docker run -p 8080:8080 -e MONGODB_URI=mongodb://host.docker.internal:27017/mock
 http://localhost:8080
 http://localhost:8080/api-docs (Swagger)
 ```
+
+## 🧪 Ejemplo de Uso
+
+```bash
+# 1. Generar datos de prueba
+curl -X POST http://localhost:8080/api/mocks/generateData \
+  -H "Content-Type: application/json" \
+  -d '{"users": 5, "pets": 10}'
+
+# 2. Obtener usuarios
+curl http://localhost:8080/api/users
+
+# 3. Obtener mascotas
+curl http://localhost:8080/api/pets
+
+# 4. Ver usuarios mock (sin insertar en BD)
+curl http://localhost:8080/api/mocks/mockingusers
+```
+
 ### Variables de entorno
 
 Crear un archivo `.env` en la raíz del proyecto (opcional, ya tiene valores por defecto):
@@ -281,36 +313,4 @@ docker-compose down
 
 # Ver estado
 docker ps
-```
-
-## 📚 Documentación API
-
-La documentación completa de la API está disponible mediante Swagger UI:
-
-**🔗 http://localhost:8080/api-docs**
-
-La documentación incluye:
-- ✅ Descripción de todos los endpoints
-- ✅ Esquemas de datos (Users, Pets)
-- ✅ Ejemplos de solicitudes y respuestas
-- ✅ Códigos de estado HTTP
-- ✅ Interfaz interactiva para probar endpoints
-
-
-## 🧪 Ejemplo de Uso
-
-```bash
-# 1. Generar datos de prueba
-curl -X POST http://localhost:8080/api/mocks/generateData \
-  -H "Content-Type: application/json" \
-  -d '{"users": 5, "pets": 10}'
-
-# 2. Obtener usuarios
-curl http://localhost:8080/api/users
-
-# 3. Obtener mascotas
-curl http://localhost:8080/api/pets
-
-# 4. Ver usuarios mock (sin insertar en BD)
-curl http://localhost:8080/api/mocks/mockingusers
 ```
